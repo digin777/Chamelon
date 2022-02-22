@@ -14,7 +14,43 @@ import {
 import{patternValidator} from '../../Validators/FormValidators'
 import {Presets} from '../../Validators/ValidationHelper';
 import { RuleObject } from 'antd/lib/form';
+import FeildBuilder from './FeildBuilder';
 function SectionAdd() {
+    const config={
+        field: "title",
+        type: "upload",
+        label: "Title",
+        class: "switch",
+        sortable: true,
+        searchable: true,
+        list: true,
+        view: true,
+        placeholder: "Title",
+        export: true,
+        source_type: "static",
+        source: [
+          {
+            label: "Active",
+            value: "active"
+          },
+          {
+            label: "Inactive",
+            value: "inactive"
+          }
+        ],
+        validators: [
+          {
+            required: true,
+            pattern:"^(?=.*[\\w\\d]).+"
+          }
+        ],
+        validations_msg: [
+          {
+            required: "Title is required",
+            pattern:"Provide valid Title"
+          }
+        ]
+      };
     return (
         <div>
             <Form
@@ -31,20 +67,7 @@ function SectionAdd() {
                         <Radio.Button value="large">Large</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item
-                 label="Input"
-                  name="size"
-                  rules={[
-                      {
-                        required:true,
-                        validator:(rule: RuleObject, value: any):Promise<any>=>{
-                            return patternValidator(rule,value,Presets.EMAIL,'Must be valid email');
-                        }
-                      }
-                  ]}
-                  >
-                    <Input size="large" placeholder="large size" />
-                </Form.Item>
+                <FeildBuilder config={config} type={'text'} />
             </Form>
         </div>
     )
