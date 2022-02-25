@@ -4,16 +4,17 @@ export interface Columns{
     label?:string;
     class?:string;
     placeholder?:string;
-    list?:Boolean;
-    view?:Boolean;
+    list?:boolean;
+    view?:boolean;
+    dbtype?:string;
     validators?:any[];
     validations_msg?:any[];
-    sortable?:Boolean;
-    searchable?:Boolean;
+    sortable?:boolean;
+    searchable?:boolean;
     source_type?:string;
     source?:any[];
     source_from?:string;
-    toggle_status?:Boolean;
+    toggle_status?:boolean;
     custom_felid?:any,
     relation?:Relation;
 }
@@ -25,6 +26,86 @@ type Relation ={
         displayField: string[],
         as?:string
     }
+}
+interface TextAdditional{
+    defaultValue?:string,
+    disabled?:boolean,
+    maxLength?:number,
+    value?:string
+}
+interface NumberAdditional{
+    controls?:boolean;
+    decimalSeparator?:string;
+    defaultValue?:number;
+    disabld?:boolean;
+    max?:number;
+    min?:number;
+    readonly?:boolean;
+    step?:number
+}
+
+interface RadioAdditional{
+    disabled?:boolean;
+    optionType?:'default' | 'button';
+    buttonStyle?:'outline' | 'solid';
+}
+
+interface RateAdditional{
+    allowClear?:boolean;
+    allowHalf?:boolean;
+    count?:number;
+    defaultValue?:number;
+    disabled?:boolean;
+    tooltips?:string[]
+}
+
+interface SelectAdditional{
+    autoClearSearchValue?:boolean;
+    allowClear?:boolean;
+    showSearch?:boolean;
+    showArrow?:boolean;
+    maxTagTextLength?:number;
+    maxTagCount:number | 'responsive';
+}
+
+interface SliderAdditional{
+    disabled?:boolean;
+    max?:number;
+    min?:number;
+    range?:boolean;
+    reverse?:boolean;
+    step?:number | null;
+    tooltipVisible?:boolean;
+    vertical?:boolean;
+}
+interface SwitchAdditional{
+    checked?:boolean;
+    disabled?:boolean;
+}
+
+interface TimeAdditional{
+    use12Hours?:boolean;
+    showNow?:boolean;
+    secondStep?:number;
+    minuteStep?:number;
+    hourStep?:number;
+    format?:string;
+    allowClear?:string;
+}
+interface UploadAdditional{
+    accept?:string;
+    disabled?:boolean;
+    listType?:'text'| 'picture'|  'picture-card';
+    maxCount?:number;
+    multiple?:boolean;
+
+}
+interface DateAdditonal{
+    showNow:boolean;
+    showToday:boolean;
+}
+interface CheckBoxAdditonal{
+    defaultValue:string[];
 }
 export type ConfigSchema={
     columns:Columns[];

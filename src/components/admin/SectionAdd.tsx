@@ -15,10 +15,11 @@ import{patternValidator} from '../../Validators/FormValidators'
 import {Presets} from '../../Validators/ValidationHelper';
 import { RuleObject } from 'antd/lib/form';
 import FeildBuilder from './FeildBuilder';
+import {JobSchema} from '../../Validators/ConfigValidatorJoI';
 function SectionAdd() {
     const config={
         field: "title",
-        type: "upload",
+        type: "select",
         label: "Title",
         class: "switch",
         sortable: true,
@@ -51,6 +52,7 @@ function SectionAdd() {
           }
         ]
       };
+      console.log(JobSchema.validate(config));
     return (
         <div>
             <Form

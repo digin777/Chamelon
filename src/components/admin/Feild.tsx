@@ -32,6 +32,16 @@ function Feild(props: feildprops) {
                 {getOptions(props.rest, 'radio')}
             </Select>);
             break
+        case 'multiselect':
+            return (<Select
+                mode="multiple"
+                placeholder={props.placeholder}
+                onChange={undefined}
+                allowClear
+            >
+                {getOptions(props.rest, 'radio')}
+            </Select>);
+            break
         case 'radio':
             return (<Radio.Group
                 onChange={undefined}
