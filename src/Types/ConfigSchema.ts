@@ -15,9 +15,11 @@ export interface Columns{
     source?:any[];
     source_from?:string;
     toggle_status?:boolean;
-    custom_felid?:any,
+    custom_felid?:any;
     relation?:Relation;
+    additonal?:Additonal;
 }
+type Additonal=TextAdditional|NumberAdditional|RadioAdditional|RateAdditional|SelectAdditional|SliderAdditional|SwitchAdditional|TimeAdditional|UploadAdditional|DateAdditonal|CheckBoxAdditonal|MultiselectAdditional;
 type Relation ={
     $lookup: {
         from: string,
@@ -64,10 +66,12 @@ interface SelectAdditional{
     allowClear?:boolean;
     showSearch?:boolean;
     showArrow?:boolean;
-    maxTagTextLength?:number;
-    maxTagCount:number | 'responsive';
 }
-
+interface MultiselectAdditional extends SelectAdditional{
+    maxTagTextLength?:number;
+    maxTagCount?:number | 'responsive';
+    disabled?:boolean;
+}
 interface SliderAdditional{
     disabled?:boolean;
     max?:number;
@@ -90,7 +94,7 @@ interface TimeAdditional{
     minuteStep?:number;
     hourStep?:number;
     format?:string;
-    allowClear?:string;
+    allowClear?:boolean;
 }
 interface UploadAdditional{
     accept?:string;

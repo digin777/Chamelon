@@ -5,6 +5,10 @@ import { OptionItem } from './SuportElements'
 import Column from 'antd/lib/table/Column';
 import { DefaultOptionType } from 'antd/lib/select';
 import TextArea from 'antd/lib/input/TextArea';
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/theme-dracula";
+import 'ace-builds/src-noconflict/snippets/json'
 import { CheckOutlined, CloseOutlined, UploadOutlined } from '@ant-design/icons';
 export interface feildprops {
     type?: String;
@@ -38,6 +42,7 @@ function Feild(props: feildprops) {
                 placeholder={props.placeholder}
                 onChange={undefined}
                 allowClear
+                {...props.rest.additonal}
             >
                 {getOptions(props.rest, 'radio')}
             </Select>);
@@ -99,6 +104,24 @@ function Feild(props: feildprops) {
                 <Upload >
                     <Button icon={<UploadOutlined />}>{props.placeholder}</Button>
                 </Upload>
+            );
+            break;
+        case 'script':
+            return (
+                <AceEditor
+                    placeholder=""
+                    mode="json"
+                    theme="dracula"
+                    name="blah2"
+                    onLoad={undefined}
+                    onChange={undefined}
+                    fontSize={14}
+                    showPrintMargin={true}
+                    showGutter={true}
+                    highlightActiveLine={true}
+                    enableLiveAutocompletion={true}
+                    enableSnippets={true}
+                />
             );
             break;
         default:

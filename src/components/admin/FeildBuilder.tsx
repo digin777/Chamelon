@@ -2,7 +2,7 @@ import React from 'react'
 import { Columns } from '../../Types/ConfigSchema'
 import { Form, Input } from 'antd';
 import { RuleObject } from 'antd/lib/form';
-import { patternValidator } from '../../Validators/FormValidators';
+import { patternValidator, scriptValidator } from '../../Validators/FormValidators';
 import Feild from './Feild';
 export interface feildbuilderprops {
     type?: String;
@@ -11,7 +11,6 @@ export interface feildbuilderprops {
 
 function FeildBuilder(prop: feildbuilderprops) {
     const { config } = prop;
-        console.log(getRule(config))
         return (
             <>
             <Form.Item
@@ -47,7 +46,15 @@ function getRule(config?: Columns): any[] {
                     }
                 )
             }
-
+            if (validation.script) {
+                validations.push(
+                    {
+                        validator: (rule: RuleObject, value: any): Promise<any> => {
+                            return scriptValidator(rule, value);
+                        }
+                    }
+                )
+            }
     }
     return validations;
 }
