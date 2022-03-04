@@ -4,13 +4,15 @@ import { Form, Input } from 'antd';
 import { RuleObject } from 'antd/lib/form';
 import { patternValidator, scriptValidator } from '../../Validators/FormValidators';
 import Feild from './Feild';
+import{SubmitedFeildValue} from '../../Types/HelperTypes'
 export interface feildbuilderprops {
     type?: String;
-    config?: Columns
+    config?: Columns;
+    value?:SubmitedFeildValue;
 }
 
 function FeildBuilder(prop: feildbuilderprops) {
-    const { config } = prop;
+    const { config,value } = prop;
         return (
             <>
             <Form.Item
@@ -18,7 +20,7 @@ function FeildBuilder(prop: feildbuilderprops) {
                 name={config?.field}
                 rules={getRule(config)}
             >
-                {Feild({type:config?.type,placeholder:config?.placeholder,rest:config})}
+                {Feild({type:config?.type,placeholder:config?.placeholder,rest:config,submitedValue:value})}
             </Form.Item>
             </>
         )

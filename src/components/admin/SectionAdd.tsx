@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import {dataOut} from '../../Validators/ConfigValidatorAjv'
 import {
   Form,
-  Input,
   Button,
-  Radio,
-  Select,
-  Cascader,
-  DatePicker,
-  InputNumber,
-  TreeSelect,
-  Switch,
 } from 'antd';
 import { patternValidator } from '../../Validators/FormValidators'
 import { Presets } from '../../Validators/ValidationHelper';
@@ -52,6 +44,9 @@ function SectionAdd() {
     ],
   };
   const cfdata= dataOut.column;
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  }
   return (
     <div>
       <Form
@@ -60,14 +55,9 @@ function SectionAdd() {
         layout="horizontal"
         initialValues={{ size: '' }}
         size={'large'}
+        onFinish={onFinish}
       >
-        {/* <Form.Item label="Radio" name="size">
-          <Radio.Group>
-            <Radio.Button value="small">Small</Radio.Button>
-            <Radio.Button value="default">Default</Radio.Button>
-            <Radio.Button value="large">Large</Radio.Button>
-          </Radio.Group>
-        </Form.Item> */}
+
         {cfdata.map(config=>(
         <FeildBuilder config={config} type={config.type} />
         ))}
@@ -78,7 +68,7 @@ function SectionAdd() {
         </Form.Item>
       </Form>
     </div>
-  )
+  );
 }
 
 export default SectionAdd;

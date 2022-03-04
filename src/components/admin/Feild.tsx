@@ -9,22 +9,25 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-dracula";
 import 'ace-builds/src-noconflict/snippets/json'
+import{SubmitedFeildValue} from '../../Types/HelperTypes'
 import { CheckOutlined, CloseOutlined, UploadOutlined } from '@ant-design/icons';
 export interface feildprops {
     type?: String;
     rest?: any
     placeholder?: string
+    submitedValue?:SubmitedFeildValue;
 };
 type Item = {
     value: String;
     label: any;
 };
 function Feild(props: feildprops) {
-    const { type, placeholder } = props;
+    const { type, placeholder,submitedValue } = props;
+    const value=submitedValue?.value;
     switch (type) {
         case 'text':
             return (
-                <Input placeholder={props.placeholder} />
+                <Input placeholder={props.placeholder} value={"vvbgf"} />
             )
             break;
         case 'select':
@@ -93,7 +96,6 @@ function Feild(props: feildprops) {
             return (<Switch
                 checkedChildren={<CheckOutlined />}
                 unCheckedChildren={<CloseOutlined />}
-                defaultChecked
             />);
             break;
         case 'time':
