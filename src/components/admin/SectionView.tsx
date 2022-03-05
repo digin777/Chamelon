@@ -1,8 +1,24 @@
 import React from 'react'
-import { Row, Col, Button } from 'antd'
+import { Row, Col, Button, Space } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons';
-
+import { dataOut, datasub } from '../../Validators/ConfigValidatorAjv'
 function SectionView() {
+    type InnerType = Array<JSX.Element>;
+    let innerArray: InnerType = [];
+    let outer: InnerType[] = [];
+    datasub.map((item, idx) => {
+        innerArray.push(
+            <Col span={12} style={{alignItems:'center'}}>
+                <Space direction="vertical" size="small">
+                    <span style={{ fontWeight: 'bold' }}>{item.field}</span>
+                    <span>{item.value}</span>
+                </Space>
+            </Col>);
+        if (innerArray.length === 2) {
+            outer.push(innerArray);
+            innerArray = [];
+        }
+    })
     return (
         <div>
             <Row justify="end">
@@ -12,10 +28,9 @@ function SectionView() {
                     </Button>
                 </Col>
             </Row>
-            <Row>
-
-                <span>view componnet</span>
-            </Row>
+            {outer.map((item) => {
+                return (<Row style={{marginTop:'10px'}}>{item}</Row>);
+            })}
         </div>
     )
 }

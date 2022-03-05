@@ -8,7 +8,6 @@ import FeildBuilder from './FeildBuilder';
 import { useForm } from 'antd/lib/form/Form';
 import{Varing} from '../../Types/HelperTypes';
 import moment from 'moment';
-import { strict } from 'assert';
 function SectionEdit() {
     const [form] =useForm()
     const cfdata= dataOut.column;
@@ -24,7 +23,6 @@ function SectionEdit() {
             dataOuter[item.field]=moment(item.value as string);
         }
     });
-    console.log(dataOuter)
     form.setFieldsValue(dataOuter)
 
   }, [])
@@ -41,7 +39,7 @@ function SectionEdit() {
       >
 
         {cfdata.map((config,idx)=>(
-        <FeildBuilder config={config} type={config.type} value={datasub[idx]}/>
+          <FeildBuilder config={config} type={config.type} value={datasub[idx]}/>
         ))}
         <Form.Item>
           <Button type="primary" htmlType="submit">
