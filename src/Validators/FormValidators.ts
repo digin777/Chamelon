@@ -17,7 +17,6 @@ export const scriptValidator =(rule:RuleObject,value:any): Promise<any> => {
     return new Promise((resolve, reject) => {
         value =JSON.parse(value);
         const validate=JobSchema.validate(value.column);
-        console.log(value)
         if (!validate.error){
             resolve("ok");
         }else{

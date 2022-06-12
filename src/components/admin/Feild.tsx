@@ -11,6 +11,7 @@ import "ace-builds/src-noconflict/theme-dracula";
 import 'ace-builds/src-noconflict/snippets/json'
 import{SubmitedFeildValue} from '../../Types/HelperTypes'
 import { CheckOutlined, CloseOutlined, UploadOutlined } from '@ant-design/icons';
+import Uploader from './Molecules/Uploader';
 export interface feildprops {
     type?: String;
     rest?: any
@@ -27,12 +28,12 @@ function Feild(props: feildprops) {
     switch (type) {
         case 'text':
             return (
-                <Input placeholder={props.placeholder} value={"vvbgf"} />
+                <Input placeholder={placeholder}  />
             )
             break;
         case 'select':
             return (<Select
-                placeholder={props.placeholder}
+                placeholder={placeholder}
                 onChange={undefined}
                 allowClear
             >
@@ -42,7 +43,7 @@ function Feild(props: feildprops) {
         case 'multiselect':
             return (<Select
                 mode="multiple"
-                placeholder={props.placeholder}
+                placeholder={placeholder}
                 onChange={undefined}
                 allowClear
                 {...props.rest.additonal}
@@ -66,7 +67,7 @@ function Feild(props: feildprops) {
                 onSelect={undefined}
                 onSearch={undefined}
             >
-                <Input size="large" placeholder={props.placeholder} />
+                <Input size="large" placeholder={placeholder} />
             </AutoComplete>);
             break;
         case 'checkbox':
@@ -81,7 +82,7 @@ function Feild(props: feildprops) {
                 <DatePicker onChange={undefined} />
             );
         case 'password':
-            return (<Input.Password placeholder={props.placeholder} />);
+            return (<Input.Password placeholder={placeholder} />);
             break;
         case 'textarea':
             return (<TextArea showCount maxLength={undefined} onChange={undefined} />);
@@ -103,9 +104,10 @@ function Feild(props: feildprops) {
             break;
         case 'upload':
             return (
-                <Upload >
-                    <Button icon={<UploadOutlined />}>{props.placeholder}</Button>
-                </Upload>
+                // <Upload >
+                //     <Button icon={<UploadOutlined />}>{props.placeholder}</Button>
+                // </Upload>
+                <Uploader placeholder={placeholder} rest={props.rest}/>
             );
             break;
         case 'script':

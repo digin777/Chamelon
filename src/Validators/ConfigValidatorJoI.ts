@@ -8,6 +8,32 @@ export const JobSchema = Joi.array().items(Joi.object({
     type: Joi.string().required(),
     label: Joi.string().optional(),
     class: Joi.string().optional(),
+    dbtype:Joi.optional().when(
+        'type', {
+            switch: [
+                {
+                    is: 'checkbox',
+                    then: Joi.string().valid("Array").required()
+                },
+                {
+                    is: 'multiselect',
+                    then: Joi.string().valid("Array").required()
+                },
+                {
+                    is: 'date',
+                    then: Joi.string().valid("Date").required()
+                },
+                {
+                    is: 'time',
+                    then: Joi.string().valid("Date").required()
+                },
+                {
+                    is: 'numberinput',
+                    then: Joi.string().valid("Number").required()
+                }
+            ],
+            otherwise: Joi.string().optional()
+        }),
     placeholder: Joi.string().optional(),
     list: Joi.boolean().optional(),
     view: Joi.boolean().optional(),
@@ -87,7 +113,7 @@ export const JobSchema = Joi.array().items(Joi.object({
         otherwise: Joi.optional()
     }
     ),
-    additonal: Joi.object().when(
+    additional: Joi.object().when(
         'type', {
         switch: [
             {
@@ -191,7 +217,8 @@ export const JobSchema = Joi.array().items(Joi.object({
                     disabled: Joi.boolean().optional(),
                     listType: Joi.string().allow('text', 'picture', 'picture-card').optional(),
                     maxCount: Joi.number().optional(),
-                    multiple: Joi.boolean().optional()
+                    multiple: Joi.boolean().optional(),
+                    action:Joi.string().uri().optional(),
                 }).optional()
             },
             {

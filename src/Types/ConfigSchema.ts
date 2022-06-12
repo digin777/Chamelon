@@ -17,7 +17,7 @@ export interface Columns{
     toggle_status?:boolean;
     custom_felid?:any;
     relation?:Relation;
-    additonal?:Additonal;
+    additional?:Additonal;
 }
 type Additonal=TextAdditional|NumberAdditional|RadioAdditional|RateAdditional|SelectAdditional|SliderAdditional|SwitchAdditional|TimeAdditional|UploadAdditional|DateAdditonal|CheckBoxAdditonal|MultiselectAdditional;
 type Relation ={

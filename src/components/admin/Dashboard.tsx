@@ -9,7 +9,9 @@ import {
 import {
     Route, Routes, Outlet
 } from "react-router-dom";
-import { UserLogoutMenu } from './Menus/TopLogout'
+import{CgMenuGridO} from 'react-icons/cg';
+import {MdOutlineManageAccounts} from 'react-icons/md';
+import { UserLogoutMenu,Notification } from './Menus/TopLogout'
 import './Dashboard.css'
 type iTheme = "light" | "dark" | undefined;
 function Dashboard() {
@@ -24,7 +26,12 @@ function Dashboard() {
     return (
         <div>
             <Layout >
-                <Sider className={theme == 'light' ? 'site-menu-light' : 'site-menu-dark'} trigger={null} collapsible collapsed={isCollapsed}>
+                <Sider className={ theme == 'light' ? 'site-menu-light' : 'site-menu-dark'} trigger={null} collapsible collapsed={isCollapsed}
+                 style={{
+                   
+                    // height: '100vh',
+                    // position: 'fixed',
+                  }}>
                     <div className="logo" >
                         <Avatar size={45} icon={<UserOutlined />} />
                         <Switch onChange={changeTheme} />
@@ -36,19 +43,16 @@ function Dashboard() {
                         <Menu.Item key="2" icon={<CalendarOutlined />}>
                             Drivers
                         </Menu.Item>
-                        <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Settings">
-                            <Menu.Item key="3">Option 3</Menu.Item>
-                            <Menu.Item key="4">Option 4</Menu.Item>
+                        <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
+                            <Menu.Item key="3" icon={<AppstoreOutlined />}>Sections</Menu.Item>
+                            <Menu.Item key="4" icon={<CgMenuGridO size='1.3em'/>}>Menus</Menu.Item>
+                            <Menu.Item key="7"  icon={<MdOutlineManageAccounts size='1.3em'/>}>Roles</Menu.Item>
+                            <Menu.Item key="8" icon={<MailOutlined />}>Mail Template</Menu.Item>
+                            <Menu.Item key="9" icon={<SettingOutlined />}>Admin Settings</Menu.Item>
                             <SubMenu key="sub1-2" title="Submenu">
                                 <Menu.Item key="5">Option 5</Menu.Item>
                                 <Menu.Item key="6">Option 6</Menu.Item>
                             </SubMenu>
-                        </SubMenu>
-                        <SubMenu key="sub2" icon={<SettingOutlined />} title="Navigation Three">
-                            <Menu.Item key="7">Option 7</Menu.Item>
-                            <Menu.Item key="8">Option 8</Menu.Item>
-                            <Menu.Item key="9">Option 9</Menu.Item>
-                            <Menu.Item key="10">Option 10</Menu.Item>
                         </SubMenu>
                     </Menu>
                 </Sider>
@@ -68,7 +72,7 @@ function Dashboard() {
                                 })}
                             </Col>
                             <Col style={{ alignContent: 'flex-end' }} span={2} >
-                                <Dropdown overlay={UserLogoutMenu} placement="bottomLeft">
+                                <Dropdown overlay={Notification} placement="bottomLeft">
 
                                     <Badge dot={true}>
                                         <Avatar  size="large" icon={<BellOutlined />} />

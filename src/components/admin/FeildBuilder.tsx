@@ -43,6 +43,7 @@ function getRule(config?: Columns): any[] {
                 validations.push(
                     {
                         validator: (rule: RuleObject, value: any): Promise<any> => {
+                            console.log(value)
                             return patternValidator(rule, value, validation.pattern, valdation_message.pattern);
                         }
                     }

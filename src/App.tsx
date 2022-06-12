@@ -15,8 +15,8 @@ function App() {
           <Route path="/admin" element={<Dashboard />} >
             <Route path=":section" element={<Section />} />
               <Route path=":section/add" element={<SectionAdd />}/>
-              <Route path=":section/Edit" element={<SectionEdit />}/>
-              <Route path=":section/view" element={<SectionView />}/>
+              <Route path=":section/:id/edit" element={<SectionEdit />}/>
+              <Route path=":section/:id/view" element={<SectionView />}/>
             {/* </Route> */}
             <Route path="*" element={<ErrorPage />} />
           </Route>

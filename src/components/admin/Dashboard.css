@@ -33,3 +33,11 @@
   .site-menu-dark{
     background-color:#001529;
   }
+.slider-additional{
+    overflow: 'auto';
+    height: '100vh';
+    position: 'fixed';
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
