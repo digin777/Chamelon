@@ -1,34 +1,72 @@
-import React from 'react'
-import { Input, Select, Radio, Space, AutoComplete, Checkbox, DatePicker, InputNumber, Slider, Switch, TimePicker, Button, Upload } from 'antd';
-import { Columns } from '../../Types/ConfigSchema';
-import { OptionItem } from './SuportElements'
-import Column from 'antd/lib/table/Column';
-import { DefaultOptionType } from 'antd/lib/select';
+import React, {useEffect, useState} from 'react'
+import {
+    AutoComplete,
+    Checkbox,
+    DatePicker,
+    Input,
+    InputNumber,
+    Radio,
+    Select,
+    Slider,
+    Space,
+    Switch,
+    TimePicker
+} from 'antd';
+import {Columns} from '../../Types/ConfigSchema';
 import TextArea from 'antd/lib/input/TextArea';
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-dracula";
 import 'ace-builds/src-noconflict/snippets/json'
-import{SubmitedFeildValue} from '../../Types/HelperTypes'
-import { CheckOutlined, CloseOutlined, UploadOutlined } from '@ant-design/icons';
+import {SubmitedFeildValue} from '../../Types/HelperTypes'
+import {CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import Uploader from './Molecules/Uploader';
+import {BaseApi} from "../../api/BaseApi";
+
 export interface feildprops {
     type?: String;
-    rest?: any
+    rest?: Columns
     placeholder?: string
-    submitedValue?:SubmitedFeildValue;
+    submitedValue?: SubmitedFeildValue;
 };
 type Item = {
     value: String;
     label: any;
 };
+
 function Feild(props: feildprops) {
-    const { type, placeholder,submitedValue } = props;
-    const value=submitedValue?.value;
+
+    const {type, placeholder, submitedValue, rest} = props;
+    const value = submitedValue?.value;
+    const api = BaseApi.getInsance();
+    const {Option} = Select;
+    type optiondata = {
+        label: string,
+        value: any
+    }
+    const [state, setState] = useState<{ data: any[] }>({data: []});
+    useEffect(() => {
+        switch (rest?.source_type) {
+            case 'static':
+                setState(prevState =>(
+                {...prevState, data: rest.source || []}));
+                break;
+            case 'dynamic':
+                api.getOptions(rest?.source_from)
+                    .then(({data: resp}) => {
+                        const {success, data} = resp;
+                        if (success) {
+                            setState(prevState =>({...prevState, data: data}));
+                        } else {
+                        }
+                    }).catch((_: any) => {
+                })
+        }
+    }, []);
     switch (type) {
         case 'text':
             return (
-                <Input placeholder={placeholder}  />
+                <Input placeholder={placeholder}/>
             )
             break;
         case 'select':
@@ -37,76 +75,83 @@ function Feild(props: feildprops) {
                 onChange={undefined}
                 allowClear
             >
-                {getOptions(props.rest, 'radio')}
+                {state.data.map(item => (
+                    <Option value={item.value}>{item.label}</Option>)
+                )}
             </Select>);
-            break
+            break;
         case 'multiselect':
-            return (<Select
+            return <Select
                 mode="multiple"
                 placeholder={placeholder}
                 onChange={undefined}
                 allowClear
-                {...props.rest.additonal}
             >
-                {getOptions(props.rest, 'radio')}
-            </Select>);
+                {state.data.map(item => (
+                    <Option value={item.value}>{item.label}</Option>)
+                )}
+            </Select>;
+        {/*{...props.rest?.additional}*/
+        }
             break
         case 'radio':
             return (<Radio.Group
                 onChange={undefined}
             >
                 <Space direction="vertical">
-                    {getOptions(props.rest, 'radio')}
+                    {state.data.map(item => (
+                        <Radio value={item.value}>{item.label}</Radio>)
+                    )}
                 </Space>
             </Radio.Group>);
             break;
         case 'autocomplete':
             return (<AutoComplete
                 dropdownMatchSelectWidth={252}
-                options={getOptionAuto(props.rest, 'auto')}
+                // options={getOptionAuto(props.rest, 'auto')}
                 onSelect={undefined}
                 onSearch={undefined}
             >
-                <Input size="large" placeholder={placeholder} />
+                <Input size="large" placeholder={placeholder}/>
             </AutoComplete>);
             break;
         case 'checkbox':
             return (
                 <Checkbox.Group onChange={undefined}>
                     <Space direction="vertical">
-                        {getOptions(props.rest, 'checkbox')}
+                        {state.data.map(item => (
+                            <Checkbox value={item.value}>{item.label}</Checkbox>)
+                        )}
                     </Space>
                 </Checkbox.Group>);
+            break;
         case 'date':
             return (
-                <DatePicker onChange={undefined} />
+                <DatePicker onChange={undefined}/>
             );
         case 'password':
-            return (<Input.Password placeholder={placeholder} />);
+            return (<Input.Password placeholder={placeholder}/>);
             break;
         case 'textarea':
-            return (<TextArea showCount maxLength={undefined} onChange={undefined} />);
+            return (<TextArea showCount maxLength={undefined} onChange={undefined}/>);
             break;
         case 'numberinput':
-            return (<InputNumber onChange={undefined} />);
+            return (<InputNumber onChange={undefined}/>);
             break;
         case 'slider':
-            return (<Slider />);
+            return (<Slider/>);
             break;
         case 'switch':
             return (<Switch
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
+                checkedChildren={<CheckOutlined/>}
+                unCheckedChildren={<CloseOutlined/>}
             />);
             break;
         case 'time':
-            return (<TimePicker onChange={undefined} />);
+            return (<TimePicker onChange={undefined}/>);
             break;
         case 'upload':
             return (
-                // <Upload >
-                //     <Button icon={<UploadOutlined />}>{props.placeholder}</Button>
-                // </Upload>
                 <Uploader placeholder={placeholder} rest={props.rest}/>
             );
             break;
@@ -134,89 +179,5 @@ function Feild(props: feildprops) {
     }
 
 }
+
 export default Feild;
-function getOptionAuto(column: Columns, type?: string) {
-    switch (column.source_type) {
-        case 'static':
-            if (type === 'auto') {
-                return (
-
-                    column?.source?.map(item => (
-                        OptionItem({ value: item.value, label: item.label })
-                    )
-                    ) as DefaultOptionType[]
-                );
-            }
-            break;
-        case 'dynamic':
-            const data = [{ label: "dd", value: "sad" }];
-            if (type === 'auto') {
-                return (
-
-                    column?.source?.map(item => (
-                        OptionItem({ value: item.value, label: item.label })
-                    )
-                    ) as DefaultOptionType[]
-                );
-            }
-    }
-}
-function getOptions(column: Columns, type?: string) {
-
-    const { Option } = Select;
-    // column?.source?.map
-    switch (column.source_type) {
-        case 'static':
-            if (type === 'option') {
-                return (
-                    <>
-                        {column?.source?.map(item => (
-                            <Option value={item.value}>{item.label}</Option>)
-                        )}
-                    </>);
-            } else if (type === 'radio') {
-                return (
-                    <>
-                        {column?.source?.map(item => (
-                            <Radio value={item.value}>{item.label}</Radio>)
-                        )}
-                    </>);
-            } else if (type === 'checkbox') {
-                return (
-                    <>
-                        {column?.source?.map(item => (
-                            <Checkbox value={item.value}>{item.label}</Checkbox>)
-                        )}
-                    </>);
-            }
-            break;
-        case 'dynamic':
-            const data = [{ label: "dd", value: "sad" }]
-            if (type === 'option') {
-                return (
-                    <>
-                        {data.map(item => (
-                            <Option value={item.value}>{item.label}</Option>)
-                        )}
-                    </>);
-            } else if (type === 'radio') {
-                return (
-                    <>
-                        {column?.source?.map(item => (
-                            <Radio value={item.value}>{item.label}</Radio>)
-                        )}
-                    </>);
-            } else if (type === 'checkbox') {
-                return (
-                    <>
-                        {column?.source?.map(item => (
-                            <Checkbox value={item.value}>{item.label}</Checkbox>)
-                        )}
-                    </>);
-            }
-            break;
-        default:
-            return <></>
-            break;
-    }
-}

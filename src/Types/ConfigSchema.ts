@@ -21,13 +21,9 @@ export interface Columns{
 }
 type Additonal=TextAdditional|NumberAdditional|RadioAdditional|RateAdditional|SelectAdditional|SliderAdditional|SwitchAdditional|TimeAdditional|UploadAdditional|DateAdditonal|CheckBoxAdditonal|MultiselectAdditional;
 type Relation ={
-    $lookup: {
         from: string,
-        localField: string,
         foreignField: string,
-        displayField: string[],
-        as?:string
-    }
+        displayField: string,
 }
 interface TextAdditional{
     defaultValue?:string,
@@ -113,7 +109,7 @@ interface CheckBoxAdditonal{
 }
 export type ConfigSchema={
     columns:Columns[];
-    multiple_delete?:Boolean;
-    pagination:Boolean;
-    per_pagecount:Number;
+    multiple_delete?:boolean;
+    pagination:boolean;
+    per_pagecount:number;
 }

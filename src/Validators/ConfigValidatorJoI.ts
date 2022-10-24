@@ -43,6 +43,7 @@ export const JobSchema = Joi.array().items(Joi.object({
     custom_felid: Joi.any().optional(),
     relation: Joi.object().optional(),
     sortable: Joi.boolean().optional(),
+    per_pagecount:Joi.number().required(),
     source_type: Joi.string().optional().when(
         'type', {
         is: 'select',

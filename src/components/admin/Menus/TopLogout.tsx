@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { LogoutOutlined, DownloadOutlined, UserOutlined } from '@ant-design/icons';
 export const UserLogoutMenu = (
     <Menu>
-        <Menu.Item>
+        <Menu.Item> 
             <Link to="">
                 <UserOutlined /> Profile
         </Link>

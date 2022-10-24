@@ -19,6 +19,7 @@ function FeildBuilder(prop: feildbuilderprops) {
                 label={config?.label}
                 name={config?.field}
                 rules={getRule(config)}
+                valuePropName={config?.type=="switch" ? "checked":undefined}
             >
                 {Feild({type:config?.type,placeholder:config?.placeholder,rest:config,submitedValue:value})}
             </Form.Item>

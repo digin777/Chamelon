@@ -34,7 +34,10 @@ export class BaseApi {
             })
     }
 
-
+    getOptions(route?:string,data:any={}){
+        return this.axios
+            .post(`/customRoutes/${route}`,data)
+    }
     addsectionData(section: string, sectiondata: any) {
         let config = {
             headers: {
@@ -54,5 +57,69 @@ export class BaseApi {
             //   }
               );
     }
-    
+    updatesectionData(section:string,sectiondata:any,recordId?:string,){
+        let config = {
+            headers: {
+                'Content-Type': "multipart/form-data"
+            }
+          };
+          return this.axios
+            .post(`/${section}/update`, 
+                {
+                    section,
+                    data:sectiondata,
+                    recordId
+                }
+            );
+    }
+    getsectionDataList(section:string,page?:number,limit?:number,sort?:any){
+        return this.axios
+        .post(`/${section}`, 
+            {
+                section,
+                page,
+                limit
+            }
+        );
+    }
+    getSectionIndexConfig(section:string){
+        return this.axios
+        .post('/getColumnConfig',
+        {
+            section
+        });
+    }
+
+    getSectionSort(section:string,sortinfo:any,pagination:any):Promise<any>{
+        return new Promise((resolve,reject)=>{
+            this.axios
+            .post(`/${section}/sectionSort`,{
+                section,
+                sort:sortinfo,
+                pagination
+            }).then(result=>{
+                const {data} = result;
+               resolve(data);
+            }).catch(err=>{
+                reject(err); 
+            });
+        });
+    }
+    Search(section:string,sortinfo:any,pagination:any,text:String):Promise<any>{
+        pagination.page-=1;
+        return new Promise((resolve,reject)=>{
+            this.axios
+                .post(`/${section}/search`,{
+                    section,
+                    sort:sortinfo,
+                    search:{text},
+                    pagination
+                }).then(result=>{
+                const {data} = result;
+                resolve(data);
+            }).catch(err=>{
+                reject(err);
+            });
+        });
+    }
 }

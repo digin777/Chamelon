@@ -20,7 +20,7 @@ function SectionView() {
         }
     })
     return (
-        <div>
+        <div style={{minHeight:'525px'}}>
             <Row justify="end">
                 <Col>
                     <Button >
